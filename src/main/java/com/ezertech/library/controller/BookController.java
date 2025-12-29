@@ -1,7 +1,6 @@
 package com.ezertech.library.controller;
 
 import com.ezertech.library.dto.request.BookRequest;
-import com.ezertech.library.dto.request.SearchRequest;
 import com.ezertech.library.dto.response.BookResponse;
 import com.ezertech.library.dto.response.PageResponse;
 import com.ezertech.library.service.ITBookService;
@@ -15,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
