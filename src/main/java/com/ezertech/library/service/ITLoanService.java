@@ -4,8 +4,6 @@ import com.ezertech.library.dto.request.LoanRequest;
 import com.ezertech.library.dto.response.LoanResponse;
 import com.ezertech.library.dto.response.PageResponse;
 
-import java.util.List;
-
 public interface ITLoanService {
 
     LoanResponse create(LoanRequest request);

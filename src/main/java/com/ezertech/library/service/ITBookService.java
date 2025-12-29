@@ -13,8 +13,6 @@ public interface ITBookService {
 
     BookResponse findById(Long id);
 
-    List<BookResponse> findAll();
-
     BookResponse update(Long id, BookRequest request);
 
     void delete(Long id);

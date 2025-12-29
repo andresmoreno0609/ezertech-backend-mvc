@@ -48,14 +48,6 @@ public class BookServiceImpl implements ITBookService {
     }
 
     @Override
-    public List<BookResponse> findAll() {
-        return bookRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
-    }
-
-    @Override
     public BookResponse update(Long id, BookRequest request) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book not found with id: " + id));
