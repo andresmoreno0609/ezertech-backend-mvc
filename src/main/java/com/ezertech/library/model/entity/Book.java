@@ -39,7 +39,7 @@ public class Book {
     private Integer publicationYear;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private BookStatus status;
 
     @Column(name = "created_at", nullable = false, updatable = false)

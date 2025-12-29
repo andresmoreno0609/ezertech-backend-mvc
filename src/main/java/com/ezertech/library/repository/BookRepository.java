@@ -1,4 +1,4 @@
-package com.ezertech.library.model.repository;
+package com.ezertech.library.repository;
 
 import com.ezertech.library.model.entity.Book;
 import com.ezertech.library.model.enums.BookStatus;
