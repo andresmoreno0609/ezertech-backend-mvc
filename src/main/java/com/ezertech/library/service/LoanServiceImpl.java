@@ -44,8 +44,8 @@ public class LoanServiceImpl implements ITLoanService {
                 .book(book)
                 .borrowerName(request.borrowerName())
                 .borrowerEmail(request.borrowerEmail())
-                .loanDate(request.loanDate())
-                .dueDate(request.loanDate().plusDays(14))
+                .loanDate(LocalDate.now())
+                .dueDate(LocalDate.now().plusDays(14))
                 .build();
 
         book.setStatus(BookStatus.BORROWED);
