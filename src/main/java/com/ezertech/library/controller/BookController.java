@@ -1,7 +1,9 @@
 package com.ezertech.library.controller;
 
 import com.ezertech.library.dto.request.BookRequest;
+import com.ezertech.library.dto.request.SearchRequest;
 import com.ezertech.library.dto.response.BookResponse;
+import com.ezertech.library.dto.response.PageResponse;
 import com.ezertech.library.service.ITBookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
@@ -60,15 +64,22 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Get all books",
-            description = "Returns a list of all registered books"
+            summary = "Search loans (paginated)",
+            description = "Returns a paginated list of loans with sorting options"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Books retrieved successfully")
+            @ApiResponse(responseCode = "200", description = "Paginated loans list")
     })
-    @GetMapping
-    public ResponseEntity<List<BookResponse>> findAll() {
-        return ResponseEntity.ok(bookService.findAll());
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<BookResponse>> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "ASC") String direction
+    ) {
+        return ResponseEntity.ok(
+                bookService.search(null, page, size, sortBy, direction)
+        );
     }
 
     @Operation(

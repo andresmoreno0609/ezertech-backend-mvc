@@ -1,12 +1,18 @@
 package com.ezertech.library.service;
 
 import com.ezertech.library.dto.request.BookRequest;
+import com.ezertech.library.dto.request.SearchRequest;
 import com.ezertech.library.dto.response.BookResponse;
+import com.ezertech.library.dto.response.PageResponse;
 import com.ezertech.library.exception.BookNotFoundException;
 import com.ezertech.library.model.entity.Book;
 import com.ezertech.library.model.enums.BookStatus;
 import com.ezertech.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,6 +71,40 @@ public class BookServiceImpl implements ITBookService {
     @Override
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public PageResponse<BookResponse> search(
+            SearchRequest request,
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+        Sort sort = Sort.by(
+                "DESC".equalsIgnoreCase(direction)
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC,
+                sortBy
+        );
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Book> result;
+
+        if (request != null && request.keyword() != null && !request.keyword().isBlank()) {
+            result = bookRepository.searchByKeyword(request.keyword(), pageable);
+        } else {
+            result = bookRepository.findAll(pageable);
+        }
+
+        return new PageResponse<>(
+                result.getContent().stream().map(this::mapToResponse).toList(),
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages()
+        );
     }
 
     private BookResponse mapToResponse(Book book) {
