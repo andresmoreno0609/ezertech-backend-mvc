@@ -2,6 +2,7 @@ package com.ezertech.library.service;
 
 import com.ezertech.library.dto.request.LoanRequest;
 import com.ezertech.library.dto.response.LoanResponse;
+import com.ezertech.library.dto.response.PageResponse;
 
 import java.util.List;
 
@@ -11,5 +12,10 @@ public interface ITLoanService {
 
     LoanResponse returnBook(Long loanId);
 
-    List<LoanResponse> findAll();
+    PageResponse<LoanResponse> search(
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    );
 }

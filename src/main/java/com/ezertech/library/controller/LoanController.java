@@ -1,6 +1,7 @@
 package com.ezertech.library.controller;
 import com.ezertech.library.dto.request.LoanRequest;
 import com.ezertech.library.dto.response.LoanResponse;
+import com.ezertech.library.dto.response.PageResponse;
 import com.ezertech.library.service.ITLoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,14 +58,21 @@ public class LoanController {
     }
 
     @Operation(
-            summary = "Get all loans",
-            description = "Returns a list of all loans"
+            summary = "Search loans (paginated)",
+            description = "Returns a paginated list of loans with sorting options"
     )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Loans retrieved successfully")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Paginated loans list")
     })
-    @GetMapping
-    public ResponseEntity<List<LoanResponse>> findAll() {
-        return ResponseEntity.ok(loanService.findAll());
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<LoanResponse>> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "ASC") String direction
+    ) {
+        return ResponseEntity.ok(
+                loanService.search(page, size, sortBy, direction)
+        );
     }
 }

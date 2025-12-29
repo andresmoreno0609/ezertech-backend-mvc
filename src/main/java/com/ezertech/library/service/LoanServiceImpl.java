@@ -2,6 +2,7 @@ package com.ezertech.library.service;
 
 import com.ezertech.library.dto.request.LoanRequest;
 import com.ezertech.library.dto.response.LoanResponse;
+import com.ezertech.library.dto.response.PageResponse;
 import com.ezertech.library.exception.BookNotAvailableException;
 import com.ezertech.library.exception.BookNotFoundException;
 import com.ezertech.library.exception.LoanNotFoundException;
@@ -11,6 +12,10 @@ import com.ezertech.library.model.enums.BookStatus;
 import com.ezertech.library.repository.BookRepository;
 import com.ezertech.library.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -66,12 +71,34 @@ public class LoanServiceImpl implements ITLoanService {
     }
 
     @Override
-    public List<LoanResponse> findAll() {
-        return loanRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+    public PageResponse<LoanResponse> search(
+            int page,
+            int size,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = Sort.by(
+                "DESC".equalsIgnoreCase(direction)
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC,
+                sortBy
+        );
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Loan> result = loanRepository.findAll(pageable);
+
+        return new PageResponse<>(
+                result.getContent().stream().map(this::mapToResponse).toList(),
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages()
+        );
     }
+
+
 
     private LoanResponse mapToResponse(Loan loan) {
         return new LoanResponse(
