@@ -8,6 +8,7 @@ import com.ezertech.library.exception.BookNotFoundException;
 import com.ezertech.library.model.entity.Book;
 import com.ezertech.library.model.enums.BookStatus;
 import com.ezertech.library.repository.BookRepository;
+import com.ezertech.library.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +16,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements ITBookService {
 
     private final BookRepository bookRepository;
+    private final LoanRepository loanRepository;
 
     @Override
     public BookResponse create(BookRequest request) {
@@ -96,6 +101,28 @@ public class BookServiceImpl implements ITBookService {
                 result.getTotalElements(),
                 result.getTotalPages()
         );
+    }
+
+    @Override
+    public Map<String, Object> getLibraryStats() {
+
+        long totalBooks = bookRepository.count();
+
+        long availableBooks = bookRepository.countByStatus(BookStatus.AVAILABLE);
+        long borrowedBooks = bookRepository.countByStatus(BookStatus.BORROWED);
+
+        long activeLoans = loanRepository.countByReturnDateIsNull();
+
+        long overdueLoans = loanRepository.countOverdueLoans(LocalDate.now());
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalBooks", totalBooks);
+        stats.put("availableBooks", availableBooks);
+        stats.put("borrowedBooks", borrowedBooks);
+        stats.put("activeLoans", activeLoans);
+        stats.put("overdueLoans", overdueLoans);
+
+        return stats;
     }
 
     private BookResponse mapToResponse(Book book) {

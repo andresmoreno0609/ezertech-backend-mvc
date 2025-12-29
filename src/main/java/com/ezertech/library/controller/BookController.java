@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
@@ -111,6 +113,16 @@ public class BookController {
 
         bookService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+            summary = "Get library statistics",
+            description = "Returns general statistics about books and loans"
+    )
+    @ApiResponse(responseCode = "200", description = "Library statistics")
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getLibraryStats() {
+        return ResponseEntity.ok(bookService.getLibraryStats());
     }
 }
 

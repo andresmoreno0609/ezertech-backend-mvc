@@ -5,6 +5,8 @@ import com.ezertech.library.dto.request.SearchRequest;
 import com.ezertech.library.dto.response.BookResponse;
 import com.ezertech.library.dto.response.PageResponse;
 
+import java.util.Map;
+
 public interface ITBookService {
 
     BookResponse create(BookRequest request);
@@ -22,4 +24,6 @@ public interface ITBookService {
             String sortBy,
             String direction
     );
+
+    Map<String, Object> getLibraryStats();
 }
