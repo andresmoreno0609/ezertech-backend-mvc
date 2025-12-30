@@ -2,38 +2,42 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Books - List</title>
+    <title>Libros - Lista</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <a class="navbar-brand" th:href="@{/}">Biblioteca</a>
         <div class="navbar-nav">
-            <a class="nav-link active" th:href="@{/books}">Books</a>
-            <a class="nav-link" th:href="@{/loans}">Loans</a>
-            <a class="nav-link" th:href="@{/books/search}">Search</a>
+            <a class="nav-link active" th:href="@{/books}">Libros</a>
+            <a class="nav-link" th:href="@{/loans}">Préstamos</a>
         </div>
     </div>
 </nav>
+
 <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Books</h2>
-        <a class="btn btn-primary" th:href="@{/books/new}">Add Book</a>
-
+        <h2 class="mb-0">Libros</h2>
+        <a class="btn btn-primary" th:href="@{/books/new}">Agregar Libro</a>
     </div>
 
     <div class="mb-3">
-        <input id="quickSearch" type="text" class="form-control" placeholder="Quick search by title/author...">
+        <input id="quickSearch" type="text" class="form-control" placeholder="Búsqueda rápida por título/autor...">
     </div>
 
     <table class="table table-striped table-hover" id="booksTable">
         <thead class="table-dark">
         <tr>
-            <th>Title</th><th>Author</th><th>ISBN</th><th>Status</th><th>Action</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -43,19 +47,18 @@
             <td th:text="${book.isbn}"></td>
             <td th:text="${book.status}" th:class="'fw-bold ' + (${book.status} == 'AVAILABLE' ? 'text-success' : (${book.status} == 'BORROWED' ? 'text-danger' : 'text-warning'))"></td>
             <td class="d-flex gap-2">
-                <a class="btn btn-sm btn-warning" th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
+                <a class="btn btn-sm btn-warning" th:href="@{/books/edit/{id}(id=${book.id})}">Editar</a>
                 <a th:href="@{/books/delete/{id}(id=${book.id})}" class="btn btn-danger btn-sm"
                    onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?')">
                     Eliminar
                 </a>
-
-                <a class="btn btn-sm btn-success" th:if="${book.status == 'AVAILABLE'}" th:href="@{/loans/new(bookId=${book.id})}">Borrow</a>
+                <a class="btn btn-sm btn-success" th:if="${book.status == 'AVAILABLE'}" th:href="@{/loans/new(bookId=${book.id})}">Prestar</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-secondary mt-3" th:href="@{/}">Back to Home</a>
+    <a class="btn btn-secondary mt-3" th:href="@{/}">Volver al Inicio</a>
 </div>
 
 <script src="/js/bootstrap.bundle.min.js"></script>

@@ -2,25 +2,26 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Loans - Form</title>
+    <title>Nuevo Préstamo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <a class="navbar-brand" th:href="@{/}">Biblioteca</a>
         <div class="navbar-nav">
-            <a class="nav-link" th:href="@{/books}">Books</a>
-            <a class="nav-link active" th:href="@{/loans}">Loans</a>
+            <a class="nav-link" th:href="@{/books}">Libros</a>
+            <a class="nav-link active" th:href="@{/loans}">Préstamos</a>
         </div>
     </div>
 </nav>
 
 <div class="container py-4">
-    <h2>New Loan</h2>
+    <h2>Nuevo Préstamo</h2>
 
     <form th:action="@{/loans/save}" th:object="${loan}" method="post">
+        <!-- Campo Libro -->
         <div class="mb-3">
             <label for="bookId" class="form-label">Libro</label>
             <select th:field="*{bookId}" class="form-select" id="bookId">
@@ -29,18 +30,21 @@
             <div class="text-danger" th:errors="*{bookId}"></div>
         </div>
 
+        <!-- Campo Nombre del prestatario -->
         <div class="mb-3">
             <label for="borrowerName" class="form-label">Nombre del prestatario</label>
             <input type="text" th:field="*{borrowerName}" class="form-control" id="borrowerName">
             <div class="text-danger" th:errors="*{borrowerName}"></div>
         </div>
 
+        <!-- Campo Correo electrónico -->
         <div class="mb-3">
             <label for="borrowerEmail" class="form-label">Correo electrónico</label>
             <input type="email" th:field="*{borrowerEmail}" class="form-control" id="borrowerEmail">
             <div class="text-danger" th:errors="*{borrowerEmail}"></div>
         </div>
 
+        <!-- Campo Fecha de préstamo -->
         <div class="mb-3">
             <label for="loanDate" class="form-label">Fecha de préstamo</label>
             <input type="date" th:field="*{loanDate}" class="form-control" id="loanDate">
@@ -50,7 +54,6 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a th:href="@{/loans}" class="btn btn-secondary">Cancelar</a>
     </form>
-
 </div>
 
 <script src="/js/bootstrap.bundle.min.js"></script>

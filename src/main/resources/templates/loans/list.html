@@ -2,45 +2,45 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Préstamos</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <title>Préstamos - Lista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <a class="navbar-brand" th:href="@{/}">Biblioteca</a>
         <div class="navbar-nav">
-            <a class="nav-link active" th:href="@{/books}">Books</a>
-            <a class="nav-link" th:href="@{/loans}">Loans</a>
-            <a class="nav-link" th:href="@{/books/search}">Search</a>
+            <a class="nav-link" th:href="@{/books}">Libros</a>
+            <a class="nav-link active" th:href="@{/loans}">Préstamos</a>
         </div>
     </div>
 </nav>
-<div class="container mt-4">
 
-    <!-- Mensajes flash -->
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <!-- Encabezado y botón -->
+<div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Préstamos</h2>
-        <a th:href="@{/loans/new}" class="btn btn-primary">Nuevo Préstamo</a>
+        <h2 class="mb-0">Préstamos</h2>
+        <a class="btn btn-primary" th:href="@{/loans/new}">Nuevo Préstamo</a>
     </div>
 
-    <!-- Búsqueda rápida (opcional, aún no funcional) -->
-    <input type="text" class="form-control mb-3" placeholder="Buscar por nombre, email o libro...">
+    <!-- Barra de búsqueda rápida -->
+    <div class="mb-3">
+        <input id="loanSearch" type="text" class="form-control" placeholder="Búsqueda rápida por nombre, correo o libro...">
+    </div>
 
     <!-- Tabla de préstamos -->
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="loansTable">
         <thead class="table-dark">
         <tr>
             <th>Libro</th>
             <th>Nombre</th>
-            <th>Email</th>
-            <th>Fecha Préstamo</th>
-            <th>Vencimiento</th>
-            <th>Devolución</th>
+            <th>Correo</th>
+            <th>Fecha de Préstamo</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Fecha de Devolución</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -52,27 +52,31 @@
             <td th:text="${loan.loanDate}"></td>
             <td th:text="${loan.dueDate}"></td>
             <td th:text="${loan.returnDate != null ? loan.returnDate : 'Pendiente'}"></td>
-            <td>
+            <td class="d-flex gap-2">
                 <a th:href="@{/loans/return/{id}(id=${loan.id})}"
-                   class="btn btn-success btn-sm"
+                   class="btn btn-sm btn-success"
                    th:if="${loan.returnDate == null}">Devolver</a>
+
+                <span th:if="${loan.returnDate != null}" class="text-muted">Devuelto</span>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <!-- Paginación -->
-    <nav>
-        <ul class="pagination">
-            <li th:each="i : ${#numbers.sequence(0, loans.totalPages - 1)}"
-                th:classappend="${i == loans.page} ? 'active'">
-                <a th:href="@{/loans(page=${i})}" th:text="${i + 1}" class="page-link"></a>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Botón volver -->
-    <a th:href="@{/}" class="btn btn-secondary mt-3">Back to Home</a>
+    <a class="btn btn-secondary mt-3" th:href="@{/}">Volver al Inicio</a>
 </div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    const input = document.getElementById('loanSearch');
+    const rows = () => Array.from(document.querySelectorAll('#loansTable tbody tr'));
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      rows().forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+</script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.ezertech.library.repository;
 
 import com.ezertech.library.model.entity.Loan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +27,13 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     long countOverdueLoans(@Param("today") LocalDate today);
 
     boolean existsByBookId(Long bookId);
+
+    @Query("""
+    SELECT l FROM Loan l
+    WHERE LOWER(l.borrowerName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+       OR LOWER(l.borrowerEmail) LIKE LOWER(CONCAT('%', :keyword, '%'))
+       OR LOWER(l.book.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+""")
+    Page<Loan> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
 }

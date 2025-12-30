@@ -25,15 +25,6 @@ public class LoansPageController {
     private final ITLoanService loanService;
     private final ITBookService bookService;
 
-    @GetMapping
-    public String list(@RequestParam(defaultValue = "0") int page,
-                       @RequestParam(defaultValue = "10") int size,
-                       Model model) {
-        PageResponse<LoanResponse> loans = loanService.search(page, size, "loanDate", "desc");
-        model.addAttribute("loans", loans);
-        return "loans/list";
-    }
-
     @GetMapping("/new")
     public String newLoan(Model model) {
         model.addAttribute("loan", new LoanRequest(null, "", "", LocalDate.now()));
@@ -67,6 +58,19 @@ public class LoansPageController {
         }
         return "redirect:/loans";
     }
+
+    @GetMapping
+    public String list(@RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "10") int size,
+                       @RequestParam(required = false) String query,
+                       Model model) {
+        PageResponse<LoanResponse> loans = loanService.search(page, size, "loanDate", "desc");
+        model.addAttribute("loans", loans);
+        model.addAttribute("query", query);
+        return "loans/list";
+    }
+
+
 }
 
 

@@ -5,7 +5,16 @@
     <title>Nuevo Libro</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Biblioteca</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/books}">Libros</a>
+            <a class="nav-link active" th:href="@{/loans}">Préstamos</a>
+        </div>
+    </div>
+</nav>
 <div class="container mt-4">
 
     <!-- Mensaje flash opcional -->
@@ -13,7 +22,8 @@
 
     <form th:action="@{/books/save}" th:object="${book}" method="post">
         <input type="hidden" th:field="*{id}" />
-        <!-- Bloque de errores globales, dentro del form -->
+
+        <!-- Bloque de errores globales -->
         <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
             <ul class="mb-0">
                 <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
@@ -41,14 +51,14 @@
             <div class="text-danger" th:errors="*{isbn}"></div>
         </div>
 
-        <!-- Campo Año -->
+        <!-- Campo Año de publicación -->
         <div class="mb-3">
             <label for="publicationYear" class="form-label">Año de publicación</label>
             <input id="publicationYear" type="number" class="form-control" th:field="*{publicationYear}">
             <div class="text-danger" th:errors="*{publicationYear}"></div>
         </div>
 
-        <!-- Campo Estado (opcional si no está en BookRequest) -->
+        <!-- Campo Estado -->
         <div class="mb-3">
             <label for="status" class="form-label">Estado</label>
             <select id="status" class="form-select" th:field="*{status}">

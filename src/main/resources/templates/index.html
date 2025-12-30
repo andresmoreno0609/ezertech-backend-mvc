@@ -2,66 +2,87 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Library System</title>
+    <title>Sistema de Biblioteca</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .dashboard-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        .stats-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .stats-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <a class="navbar-brand" th:href="@{/}">Biblioteca</a>
         <div class="navbar-nav">
-            <a class="nav-link" th:href="@{/books}">Books</a>
-            <a class="nav-link" th:href="@{/loans}">Loans</a>
-            <a class="nav-link" th:href="@{/books/search}">Search</a>
+            <a class="nav-link" th:href="@{/books}">Libros</a>
+            <a class="nav-link" th:href="@{/loans}">Préstamos</a>
         </div>
     </div>
 </nav>
 
-<div class="container py-5">
-    <h1 class="mb-3">Bienvenido al Library System</h1>
-    <p class="lead">Index básico sin layout para validar estilos y navegación.</p>
+<div class="container-fluid py-5">
+    <h1 class="mb-4 text-center">Bienvenido al Sistema de Biblioteca</h1>
+    <p class="lead text-center mb-5">Panel principal con estadísticas y accesos rápidos.</p>
 
-    <div class="row g-4 mt-2">
+    <!-- Tarjetas de estadísticas en toda la pantalla -->
+    <div class="row g-4">
         <div class="col-md-3">
-            <div class="card text-bg-primary">
+            <div class="card text-bg-primary dashboard-card text-center p-3">
                 <div class="card-body">
-                    <h6>Total Books</h6>
-                    <h3 th:text="${stats.totalBooks}">0</h3>
+                    <div class="stats-title">Total de libros</div>
+                    <div class="stats-value" th:text="${stats.totalBooks}">0</div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-bg-success">
+            <div class="card text-bg-success dashboard-card text-center p-3">
                 <div class="card-body">
-                    <h6>Available</h6>
-                    <h3 th:text="${stats.availableBooks}">0</h3>
+                    <div class="stats-title">Disponibles</div>
+                    <div class="stats-value" th:text="${stats.availableBooks}">0</div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-bg-warning">
+            <div class="card text-bg-warning dashboard-card text-center p-3">
                 <div class="card-body">
-                    <h6>Borrowed</h6>
-                    <h3 th:text="${stats.borrowedBooks}">0</h3>
+                    <div class="stats-title">Prestados</div>
+                    <div class="stats-value" th:text="${stats.borrowedBooks}">0</div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-bg-danger">
+            <div class="card text-bg-danger dashboard-card text-center p-3">
                 <div class="card-body">
-                    <h6>Overdue Loans</h6>
-                    <h3 th:text="${stats.overdueLoans}">0</h3>
+                    <div class="stats-title">Préstamos vencidos</div>
+                    <div class="stats-value" th:text="${stats.overdueLoans}">0</div>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <div class="d-flex gap-3 mt-4">
-        <a class="btn btn-primary btn-lg" th:href="@{/books}">Manage Books</a>
-        <a class="btn btn-secondary btn-lg" th:href="@{/loans}">Manage Loans</a>
+    <!-- Botones grandes de navegación -->
+    <div class="d-flex justify-content-center gap-4 mt-5">
+        <a class="btn btn-primary btn-lg px-5 py-3" th:href="@{/books}">Gestionar Libros</a>
+        <a class="btn btn-secondary btn-lg px-5 py-3" th:href="@{/loans}">Gestionar Préstamos</a>
     </div>
 </div>
 

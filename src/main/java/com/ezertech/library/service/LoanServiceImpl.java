@@ -17,8 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,24 +72,21 @@ public class LoanServiceImpl implements ITLoanService {
         return mapToResponse(loanRepository.save(loan));
     }
 
-    @Override
-    public PageResponse<LoanResponse> search(
-            int page,
-            int size,
-            String sortBy,
-            String direction
-    ) {
-
-        Sort sort = Sort.by(
-                "DESC".equalsIgnoreCase(direction)
-                        ? Sort.Direction.DESC
-                        : Sort.Direction.ASC,
-                sortBy
-        );
-
+    public PageResponse<LoanResponse> search(int page, int size, String sortBy, String direction) {
+        Sort sort = Sort.by("DESC".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Loan> result = loanRepository.findAll(pageable);
+        // Accede al query desde el contexto web (no recomendado para lógica pura, pero válido si no quieres cambiar la interfaz)
+        String query = Optional.ofNullable(RequestContextHolder.getRequestAttributes())
+                .filter(ServletRequestAttributes.class::isInstance)
+                .map(ServletRequestAttributes.class::cast)
+                .map(ServletRequestAttributes::getRequest)
+                .map(req -> req.getParameter("query"))
+                .orElse(null);
+
+        Page<Loan> result = (query != null && !query.trim().isEmpty())
+                ? loanRepository.searchByKeyword(query.trim(), pageable)
+                : loanRepository.findAll(pageable);
 
         return new PageResponse<>(
                 result.getContent().stream().map(this::mapToResponse).toList(),
@@ -96,6 +96,7 @@ public class LoanServiceImpl implements ITLoanService {
                 result.getTotalPages()
         );
     }
+
 
 
 
