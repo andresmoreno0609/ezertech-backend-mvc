@@ -103,6 +103,7 @@ public class LoanServiceImpl implements ITLoanService {
         return new LoanResponse(
                 loan.getId(),
                 loan.getBook().getId(),
+                loan.getBook().getTitle(),
                 loan.getBorrowerName(),
                 loan.getBorrowerEmail(),
                 loan.getLoanDate(),

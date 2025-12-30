@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record LoanResponse(
         Long id,
         Long bookId,
+        String bookTitle,
         String borrowerName,
         String borrowerEmail,
         LocalDate loanDate,

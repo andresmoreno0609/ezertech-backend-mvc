@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -138,6 +139,11 @@ public class BookServiceImpl implements ITBookService {
         stats.put("overdueLoans", overdueLoans);
 
         return stats;
+    }
+
+    @Override
+    public List<Book> findByStatus(BookStatus status) {
+        return bookRepository.findByStatus(BookStatus.AVAILABLE);
     }
 
     private BookResponse mapToResponse(Book book) {

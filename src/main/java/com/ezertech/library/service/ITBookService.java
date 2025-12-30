@@ -4,7 +4,10 @@ import com.ezertech.library.dto.request.BookRequest;
 import com.ezertech.library.dto.request.SearchRequest;
 import com.ezertech.library.dto.response.BookResponse;
 import com.ezertech.library.dto.response.PageResponse;
+import com.ezertech.library.model.entity.Book;
+import com.ezertech.library.model.enums.BookStatus;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ITBookService {
@@ -26,4 +29,6 @@ public interface ITBookService {
     );
 
     Map<String, Object> getLibraryStats();
+
+    List<Book> findByStatus(BookStatus status);
 }
