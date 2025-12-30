@@ -1,13 +1,13 @@
 
 # Library App 📚
 
-[Java] Java 17
-[Spring Boot] Spring Boot 3.5.5
-[Maven] Maven Build
-[Docker] Docker Ready
-[PostgreSQL] PostgreSQL DB
-[H2] H2 Database
-[Coverage] Coverage 80%
+- [Java] Java 17
+- [Spring Boot] Spring Boot 3.5.5
+- [Maven] Maven Build
+- [Docker] Docker Ready
+- [PostgreSQL] PostgreSQL DB
+- [H2] H2 Database
+- [Coverage] Coverage 80%
 
 Proyecto base para la gestión de biblioteca digital, implementado con Java 17, Spring Boot 3.5.5 y Maven.
 El sistema permite administrar libros, préstamos, usuarios y estados de disponibilidad, con soporte para localización en español, validaciones robustas y pruebas unitarias con Mockito/MockMvc.
