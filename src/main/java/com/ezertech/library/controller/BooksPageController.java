@@ -6,6 +6,7 @@ import com.ezertech.library.exception.BookDeletionException;
 import com.ezertech.library.exception.BookNotFoundException;
 import com.ezertech.library.exception.DuplicateIsbnException;
 import com.ezertech.library.service.ITBookService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -103,5 +106,25 @@ public class BooksPageController {
         }
         return "redirect:/books";
     }
+
+    @GetMapping("/export")
+    public void exportBooksToCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=libros.csv");
+
+        List<BookResponse> books = bookService.findAll();
+
+        PrintWriter writer = response.getWriter();
+        writer.println("Título,Autor,ISBN,Estado");
+
+        for (BookResponse book : books) {
+            writer.printf("%s,%s,%s,%s%n",
+                    book.title(),
+                    book.author(),
+                    book.isbn(),
+                    book.status());
+        }
+    }
+
 }
 

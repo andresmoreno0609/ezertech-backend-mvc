@@ -31,4 +31,6 @@ public interface ITBookService {
     Map<String, Object> getLibraryStats();
 
     List<Book> findByStatus(BookStatus status);
+
+    List<BookResponse> findAll();
 }

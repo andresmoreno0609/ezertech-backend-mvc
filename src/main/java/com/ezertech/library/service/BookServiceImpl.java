@@ -146,6 +146,15 @@ public class BookServiceImpl implements ITBookService {
         return bookRepository.findByStatus(BookStatus.AVAILABLE);
     }
 
+    @Override
+    public List<BookResponse> findAll() {
+        return bookRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+
     private BookResponse mapToResponse(Book book) {
         return new BookResponse(
                 book.getId(),
