@@ -1,4 +1,4 @@
-package com.ezertech.library.controller;
+package com.ezertech.library.controller.page;
 
 import com.ezertech.library.service.ITBookService;
 import lombok.RequiredArgsConstructor;

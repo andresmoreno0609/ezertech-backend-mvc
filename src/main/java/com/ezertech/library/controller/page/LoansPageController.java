@@ -1,4 +1,4 @@
-package com.ezertech.library.controller;
+package com.ezertech.library.controller.page;
 
 import com.ezertech.library.dto.request.LoanRequest;
 import com.ezertech.library.dto.response.LoanResponse;
