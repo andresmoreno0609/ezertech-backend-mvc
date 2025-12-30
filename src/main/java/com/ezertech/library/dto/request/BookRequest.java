@@ -1,8 +1,11 @@
 package com.ezertech.library.dto.request;
 
+import com.ezertech.library.model.enums.BookStatus;
 import jakarta.validation.constraints.*;
 
 public record BookRequest(
+        Long id,
+
         @NotBlank(message = "Title is required")
         String title,
 
@@ -16,6 +19,9 @@ public record BookRequest(
         @NotNull(message = "Publication year is required")
         @Min(value = 1000, message = "Publication year must be >= 1000")
         @Max(value = 2100, message = "Publication year must be valid")
-        Integer publicationYear
+        Integer publicationYear,
+
+        @NotNull BookStatus status
+
 ) {
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Loans - List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/books}">Books</a>
+            <a class="nav-link active" th:href="@{/loans}">Loans</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Active Loans</h2>
+        <a class="btn btn-primary" th:href="@{/loans/new}">New Loan</a>
+    </div>
+
+    <table class="table table-bordered align-middle">
+        <thead class="table-dark">
+        <tr>
+            <th>Book</th><th>Borrower</th><th>Loan Date</th><th>Due Date</th><th>Status</th><th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="loan : ${loans}">
+            <td th:text="${loan.bookTitle}"></td>
+            <td th:text="${loan.borrowerName}"></td>
+            <td th:text="${loan.loanDate}"></td>
+            <td th:text="${loan.dueDate}"></td>
+            <td th:text="${loan.overdue ? 'OVERDUE' : 'ON TIME'}"
+                th:class="${loan.overdue} ? 'text-danger fw-bold' : 'text-success fw-bold'"></td>
+            <td>
+                <a th:if="${loan.returnDate == null}"
+                   th:href="@{/loans/return/{id}(id=${loan.id})}"
+                   class="btn btn-sm btn-success">Return</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" th:href="@{/}">Back to Home</a>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

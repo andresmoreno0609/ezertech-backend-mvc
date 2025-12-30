@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos de prueba -->
+    <style>
+        .demo-hero {
+          background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+          color: #fff;
+          padding: 60px 0;
+        }
+        .demo-card { min-height: 120px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar simple -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bootstrap Test</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDemo">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navDemo" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Docs</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="demo-hero">
+    <div class="container text-center">
+        <h1 class="display-5 fw-bold">Prueba de Bootstrap 5</h1>
+        <p class="lead mb-4">Si ves estilos, grid y componentes, Bootstrap está funcionando.</p>
+        <div class="d-flex justify-content-center gap-2">
+            <a class="btn btn-light btn-lg" href="#">Acción primaria</a>
+            <a class="btn btn-outline-light btn-lg" href="#">Acción secundaria</a>
+        </div>
+    </div>
+</section>
+
+<!-- Grid y cards -->
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card demo-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Grid</h5>
+                    <p class="card-text">Esta card usa el sistema de grid (col-md-4) y sombras.</p>
+                    <span class="badge bg-primary">Badge</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card demo-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Botones</h5>
+                    <button class="btn btn-primary btn-sm me-2">Primary</button>
+                    <button class="btn btn-success btn-sm me-2">Success</button>
+                    <button class="btn btn-outline-danger btn-sm">Outline</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card demo-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Alertas</h5>
+                    <div class="alert alert-info mb-0">Bootstrap cargado correctamente.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>#</th><th>Componente</th><th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>1</td><td>Navbar</td><td><span class="badge bg-success">OK</span></td></tr>
+            <tr><td>2</td><td>Grid</td><td><span class="badge bg-success">OK</span></td></tr>
+            <tr><td>3</td><td>Cards</td><td><span class="badge bg-success">OK</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- JS de Bootstrap (para navbar y componentes) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

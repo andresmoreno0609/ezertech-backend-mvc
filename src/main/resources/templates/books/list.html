@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books - List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <div class="navbar-nav">
+            <a class="nav-link active" th:href="@{/books}">Books</a>
+            <a class="nav-link" th:href="@{/loans}">Loans</a>
+            <a class="nav-link" th:href="@{/books/search}">Search</a>
+        </div>
+    </div>
+</nav>
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Books</h2>
+        <a class="btn btn-primary" th:href="@{/books/new}">Add Book</a>
+
+    </div>
+
+    <div class="mb-3">
+        <input id="quickSearch" type="text" class="form-control" placeholder="Quick search by title/author...">
+    </div>
+
+    <table class="table table-striped table-hover" id="booksTable">
+        <thead class="table-dark">
+        <tr>
+            <th>Title</th><th>Author</th><th>ISBN</th><th>Status</th><th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.isbn}"></td>
+            <td th:text="${book.status}" th:class="'fw-bold ' + (${book.status} == 'AVAILABLE' ? 'text-success' : (${book.status} == 'BORROWED' ? 'text-danger' : 'text-warning'))"></td>
+            <td class="d-flex gap-2">
+                <a class="btn btn-sm btn-warning" th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
+                <a th:href="@{/books/delete/{id}(id=${book.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?')">
+                    Eliminar
+                </a>
+
+                <a class="btn btn-sm btn-success" th:if="${book.status == 'AVAILABLE'}" th:href="@{/loans/new(bookId=${book.id})}">Borrow</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary mt-3" th:href="@{/}">Back to Home</a>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    const input = document.getElementById('quickSearch');
+    const rows = () => Array.from(document.querySelectorAll('#booksTable tbody tr'));
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      rows().forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+</script>
+</body>
+</html>

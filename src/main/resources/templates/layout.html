@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title} ?: 'Library System'">Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap local -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-icons.css" rel="stylesheet"> <!-- si tienes íconos -->
+    <style>
+        body { background-color: #f8f9fa; }
+        footer { background-color: #212529; color: #ccc; padding: 20px 0; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <i class="bi bi-book-half me-2"></i>Library
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarNav" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/books}">Books</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/loans}">Loans</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/books/search}">Search</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Fragmento parametrizado -->
+<div class="container py-5" th:fragment="layout(content)">
+    <div th:insert="${content}"></div>
+</div>
+
+<footer class="text-center mt-auto">
+    <div class="container">
+        <p class="mb-0">© 2025 Ezertech Library System</p>
+        <small>Powered by Spring Boot & Thymeleaf</small>
+    </div>
+</footer>
+
+<!-- Bootstrap JS local -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

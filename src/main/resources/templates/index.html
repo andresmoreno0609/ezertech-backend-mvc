@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Library</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/books}">Books</a>
+            <a class="nav-link" th:href="@{/loans}">Loans</a>
+            <a class="nav-link" th:href="@{/books/search}">Search</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <h1 class="mb-3">Bienvenido al Library System</h1>
+    <p class="lead">Index básico sin layout para validar estilos y navegación.</p>
+
+    <div class="row g-4 mt-2">
+        <div class="col-md-3">
+            <div class="card text-bg-primary">
+                <div class="card-body">
+                    <h6>Total Books</h6>
+                    <h3 th:text="${stats.totalBooks}">0</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-success">
+                <div class="card-body">
+                    <h6>Available</h6>
+                    <h3 th:text="${stats.availableBooks}">0</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-warning">
+                <div class="card-body">
+                    <h6>Borrowed</h6>
+                    <h3 th:text="${stats.borrowedBooks}">0</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-danger">
+                <div class="card-body">
+                    <h6>Overdue Loans</h6>
+                    <h3 th:text="${stats.overdueLoans}">0</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="d-flex gap-3 mt-4">
+        <a class="btn btn-primary btn-lg" th:href="@{/books}">Manage Books</a>
+        <a class="btn btn-secondary btn-lg" th:href="@{/loans}">Manage Loans</a>
+    </div>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

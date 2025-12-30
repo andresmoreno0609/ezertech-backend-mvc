@@ -23,4 +23,6 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
         AND l.dueDate < :today
     """)
     long countOverdueLoans(@Param("today") LocalDate today);
+
+    boolean existsByBookId(Long bookId);
 }

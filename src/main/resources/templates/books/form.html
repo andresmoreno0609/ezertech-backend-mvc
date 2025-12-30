@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Libro</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+
+    <!-- Mensaje flash opcional -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <form th:action="@{/books/save}" th:object="${book}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <!-- Bloque de errores globales, dentro del form -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            <ul class="mb-0">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div>
+
+        <!-- Campo Título -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input id="title" type="text" class="form-control" th:field="*{title}">
+            <div class="text-danger" th:errors="*{title}"></div>
+        </div>
+
+        <!-- Campo Autor -->
+        <div class="mb-3">
+            <label for="author" class="form-label">Autor</label>
+            <input id="author" type="text" class="form-control" th:field="*{author}">
+            <div class="text-danger" th:errors="*{author}"></div>
+        </div>
+
+        <!-- Campo ISBN -->
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input id="isbn" type="text" class="form-control" th:field="*{isbn}">
+            <div class="text-danger" th:errors="*{isbn}"></div>
+        </div>
+
+        <!-- Campo Año -->
+        <div class="mb-3">
+            <label for="publicationYear" class="form-label">Año de publicación</label>
+            <input id="publicationYear" type="number" class="form-control" th:field="*{publicationYear}">
+            <div class="text-danger" th:errors="*{publicationYear}"></div>
+        </div>
+
+        <!-- Campo Estado (opcional si no está en BookRequest) -->
+        <div class="mb-3">
+            <label for="status" class="form-label">Estado</label>
+            <select id="status" class="form-select" th:field="*{status}">
+                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/books}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
